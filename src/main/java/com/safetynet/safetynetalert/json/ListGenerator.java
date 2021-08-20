@@ -5,15 +5,16 @@ import com.jsoniter.any.Any;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListGenerator {
-    /** Json data input. */
-    private Any any = DataJson.inputJson();
+public final class ListGenerator {
+    private ListGenerator() {
+    }
 
     /**
      * Generate a list with personJson objects from persons json file.
      * @return List personJson type
+     * @param any deserialized DataJson input
      */
-    public List<PersonJson> personsList() {
+    public static List<PersonJson> personsList(final Any any) {
         return any.get("persons").asList()
                 .stream()
                 .map(any1 -> {
@@ -33,8 +34,9 @@ public class ListGenerator {
     /**
      * Generate a list with fireStation objects from firestations json file.
      * @return List fireStationJson type
+     * @param any deserialized DataJson input
      */
-    public  List<FireStationJson> fireStationList() {
+    public static List<FireStationJson> fireStationList(final Any any) {
         return any.get("firestations").asList()
                 .stream()
                 .map(any1 -> {
@@ -49,8 +51,9 @@ public class ListGenerator {
     /**
      * Generate a list with medicalRecord objects from medicalrecords json file.
      * @return List MedicalRecordJson type
+     * @param any deserialized DataJson input
      */
-    public  List<MedicalRecordJson> medicalRecordsList() {
+    public static List<MedicalRecordJson> medicalRecordsList(final Any any) {
         return any.get("medicalrecords").asList()
         .stream()
         .map(any1 -> {

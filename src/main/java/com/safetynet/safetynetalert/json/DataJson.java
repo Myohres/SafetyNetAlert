@@ -7,13 +7,7 @@ import net.minidev.json.writer.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
 
-public final class DataJson {
-
-    /**
-     * Default Constructor.
-     */
-    private DataJson() {
-    }
+public class DataJson {
 
     /**
      * Reading Json file "data.json".

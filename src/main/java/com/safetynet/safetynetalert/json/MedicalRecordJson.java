@@ -69,7 +69,7 @@ public class MedicalRecordJson {
      */
     public String[] getMedications() {
         String medicationTemp = JsonStream.serialize(medications);
-        return JsonIterator.deserialize(medicationTemp,String[].class);
+        return JsonIterator.deserialize(medicationTemp, String[].class);
     }
 
     /**
@@ -87,7 +87,7 @@ public class MedicalRecordJson {
      */
     public String[] getAllergies() {
         String allergiesTemp = JsonStream.serialize(allergies);
-        return JsonIterator.deserialize(allergiesTemp,String[].class);
+        return JsonIterator.deserialize(allergiesTemp, String[].class);
     }
 
     /**
