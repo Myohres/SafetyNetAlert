@@ -2,7 +2,7 @@ package com.safetynet.safetynetalert.config;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import com.safetynet.safetynetalert.json.DataJson;
+import com.safetynet.safetynetalert.constant.DataJson;
 import net.minidev.json.writer.JsonReader;
 
 import java.io.IOException;

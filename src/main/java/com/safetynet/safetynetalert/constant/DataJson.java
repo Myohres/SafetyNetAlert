@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalert.json;
+package com.safetynet.safetynetalert.constant;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
