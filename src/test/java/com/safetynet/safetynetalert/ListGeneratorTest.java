@@ -21,7 +21,7 @@ public class ListGeneratorTest {
 
     @Test
     public void listPersonJsonGeneratedWithAllPerson() {
-        List<PersonJson> personTest = ListGenerator.personsList(any);
+        List<PersonJson> personTest = ListGenerator.personsList();
         int sizePersonTest = personTest.size();
         int sizeJsonTest = any.get("persons").size();
         assertEquals(sizePersonTest, sizeJsonTest);
@@ -29,7 +29,7 @@ public class ListGeneratorTest {
 
     @Test
     public void listPersonJsonGeneratedWithPersonData() {
-        List<PersonJson> personTest = ListGenerator.personsList(any);
+        List<PersonJson> personTest = ListGenerator.personsList();
         Any person2 = any.get("persons").get(1);
         assertEquals(person2.get("firstName").as(String.class), personTest.get(1).getFirstName());
         assertEquals(person2.get("lastName").as(String.class), personTest.get(1).getLastName());
@@ -43,7 +43,7 @@ public class ListGeneratorTest {
 
     @Test
     public void listFireStationJsonGenerated() {
-        List<FireStationJson> fireStationTest = ListGenerator.fireStationList(any);
+        List<FireStationJson> fireStationTest = ListGenerator.fireStationList();
         int sizeFireStationTest = fireStationTest.size();
         int sizeJsonTest = any.get("firestations").size();
         assertEquals(sizeFireStationTest, sizeJsonTest);
@@ -52,7 +52,7 @@ public class ListGeneratorTest {
 
     @Test
     public void listFireStationJsonGeneratedWithFireStationsData() {
-        List<FireStationJson> fireStationTest = ListGenerator.fireStationList(any);
+        List<FireStationJson> fireStationTest = ListGenerator.fireStationList();
         Any fireStation2 = any.get("firestations").get(1);
         assertEquals(fireStation2.get("station").as(String.class), fireStationTest.get(1).getStation());
         assertEquals(fireStation2.get("address").as(String.class), fireStationTest.get(1).getAddress());
@@ -61,7 +61,7 @@ public class ListGeneratorTest {
 
     @Test
     public void listMedicalRecordGenerated() {
-        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList(any);
+        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList();
         int sizeMedicalRecordTest = medicalRecordTest.size();
         int sizeJsonTest = any.get("medicalrecords").size();
         assertEquals(sizeMedicalRecordTest, sizeJsonTest);
@@ -70,7 +70,7 @@ public class ListGeneratorTest {
 
     @Test
     public void listMedicalRecordGeneratedWithMedicalRecordsData() {
-        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList(any);
+        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList();
         Any medicalRecord2 = any.get("medicalrecords").get(1);
         assertEquals(medicalRecord2.get("firstName").as(String.class), medicalRecordTest.get(1).getFirstName());
         assertEquals(medicalRecord2.get("lastName").as(String.class), medicalRecordTest.get(1).getLastName());
