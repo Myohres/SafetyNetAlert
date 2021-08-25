@@ -7,8 +7,12 @@ import net.minidev.json.writer.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class DataJson {
+public final class DataJson {
+    private DataJson() {
+    }
 
+    /** Json file path. */
+    private static final String INPUT_FILE = "data.json";
     /**
      * Reading Json file "data.json".
      * @return Any deserialized json data
@@ -17,7 +21,7 @@ public class DataJson {
         byte[] tab;
         InputStream inputStream =
                 JsonReader.class.getClassLoader()
-                        .getResourceAsStream("data.json");
+                        .getResourceAsStream(INPUT_FILE);
         try {
             if (inputStream != null) {
                 tab = inputStream.readAllBytes();
