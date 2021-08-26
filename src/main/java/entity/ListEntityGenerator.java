@@ -1,7 +1,6 @@
 package entity;
 
 import com.safetynet.safetynetalert.json.FireStationJson;
-import com.safetynet.safetynetalert.json.ListGenerator;
 import com.safetynet.safetynetalert.json.MedicalRecordJson;
 import com.safetynet.safetynetalert.json.PersonJson;
 
@@ -15,12 +14,20 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ListEntityGenerator {
+public final class ListEntityGenerator {
+    private ListEntityGenerator() {
+    }
 
-    public static List<PersonEntity> personsEntityList() {
-        List<PersonJson> personJsonList = ListGenerator.personsList();
-        List<MedicalRecordJson> mrjs = ListGenerator.medicalRecordsList();
-        return personJsonList.stream()
+    /**
+     * Generate a list with PersonEntity type.
+     * @param pjList List<PersonJson>
+     * @param mrjList List<MedicalRecordJson>
+     * @return List<PersonEntity>
+     */
+    public static List<PersonEntity> personsEntityList(
+           final List<PersonJson> pjList,
+           final List<MedicalRecordJson> mrjList) {
+        return pjList.stream()
                 .map(any1 -> {
                     PersonEntity pe = new PersonEntity();
                     pe.setFirstName(any1.getFirstName());
@@ -32,7 +39,7 @@ public class ListEntityGenerator {
                     pe.setEmail(any1.getEmail());
                     MedicalRecordEntity mre = new MedicalRecordEntity();
                     pe.setMedicalRecord(mre);
-                    for (MedicalRecordJson mrj: mrjs
+                    for (MedicalRecordJson mrj: mrjList
                     ) {
                         if (mrj.getLastName().equals(any1.getLastName())
                                 && (mrj.getFirstName()
@@ -53,8 +60,15 @@ public class ListEntityGenerator {
                 }).collect(Collectors.toList());
     }
 
-    public static List<FireStationEntity> fireStationEntityList() {
-        List<FireStationJson> fsjList = ListGenerator.fireStationList();
+    /**
+     * Generate a list with FireStationEntity type.
+     * Order a List<FireStationJson> in a treemap
+     * Send treemap data to List<FireStationEntity>
+     * @param fsjList List<FireStationJson>
+     * @return List<FireStationEntity>
+     */
+    public static List<FireStationEntity> fireStationEntityList(
+            final List<FireStationJson> fsjList) {
         TreeMap<String, List<String>> listATrier = new TreeMap<>();
         List<FireStationEntity> fireStationEntityList = new ArrayList<>();
         for (FireStationJson fsj: fsjList
