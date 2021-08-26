@@ -2,20 +2,19 @@ package com.safetynet.safetynetalert.json;
 
 
 import com.jsoniter.any.Any;
-import com.safetynet.safetynetalert.constant.DataJson;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class ListGenerator {
     private ListGenerator() {
     }
-    private static Any any = DataJson.inputJson();
+
     /**
      * Generate a list with personJson objects from persons json file.
      * @return List personJson type
+     * @param any deserialized DataJson input
      */
-    public static List<PersonJson> personsList() {
+    public static List<PersonJson> personsList(final Any any) {
         return any.get("persons").asList()
                 .stream()
                 .map(any1 -> {
@@ -35,8 +34,9 @@ public final class ListGenerator {
     /**
      * Generate a list with fireStation objects from firestations json file.
      * @return List fireStationJson type
+     * @param any deserialized DataJson input
      */
-    public static List<FireStationJson> fireStationList() {
+    public static List<FireStationJson> fireStationList(final Any any) {
         return any.get("firestations").asList()
                 .stream()
                 .map(any1 -> {
@@ -51,8 +51,9 @@ public final class ListGenerator {
     /**
      * Generate a list with medicalRecord objects from medicalrecords json file.
      * @return List MedicalRecordJson type
+     * @param any deserialized DataJson input
      */
-    public static List<MedicalRecordJson> medicalRecordsList() {
+    public static List<MedicalRecordJson> medicalRecordsList(final Any any) {
         return any.get("medicalrecords").asList()
         .stream()
         .map(any1 -> {
