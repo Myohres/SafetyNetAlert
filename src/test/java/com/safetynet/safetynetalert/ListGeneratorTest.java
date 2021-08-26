@@ -1,13 +1,14 @@
 package com.safetynet.safetynetalert;
 
 
+import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import com.safetynet.safetynetalert.config.DataJsonTest;
 import com.safetynet.safetynetalert.json.FireStationJson;
 import com.safetynet.safetynetalert.json.ListGenerator;
 import com.safetynet.safetynetalert.json.MedicalRecordJson;
 import com.safetynet.safetynetalert.json.PersonJson;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,68 +16,83 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ListGeneratorTest {
 
-
-    Any any = DataJsonTest.inputJson();
-
-
     @Test
-    public void listPersonJsonGeneratedWithAllPerson() {
-        List<PersonJson> personTest = ListGenerator.personsList();
-        int sizePersonTest = personTest.size();
-        int sizeJsonTest = any.get("persons").size();
-        assertEquals(sizePersonTest, sizeJsonTest);
+    public void listPersonJsonGenerated() {
+        String str = "{\"persons\": [" +
+                "{ \"firstName\":\"John\",\"lastName\":\"Boyd\", \"address\":\"1509 Culver St\", \"city\":\"Culver\"," +
+                " \"zip\":\"97451\", \"phone\":\"841-874-6512\", \"email\":\"jaboyd@email.com\" }" +
+                "]}";
+        Any jsonInput = JsonIterator.deserialize(str);
+        List<PersonJson> personTest = ListGenerator.personsList(jsonInput);
+        assertEquals("John",personTest.get(0).getFirstName());
+        assertEquals("Boyd",personTest.get(0).getLastName());
+        assertEquals("1509 Culver St", personTest.get(0).getAddress());
+        assertEquals("Culver", personTest.get(0).getCity());
+        assertEquals("97451", personTest.get(0).getZip());
+        assertEquals("841-874-6512", personTest.get(0).getPhone());
+        assertEquals("jaboyd@email.com", personTest.get(0).getEmail());
     }
 
     @Test
-    public void listPersonJsonGeneratedWithPersonData() {
-        List<PersonJson> personTest = ListGenerator.personsList();
-        Any person2 = any.get("persons").get(1);
-        assertEquals(person2.get("firstName").as(String.class), personTest.get(1).getFirstName());
-        assertEquals(person2.get("lastName").as(String.class), personTest.get(1).getLastName());
-        assertEquals(person2.get("address").as(String.class), personTest.get(1).getAddress());
-        assertEquals(person2.get("city").as(String.class), personTest.get(1).getCity());
-        assertEquals(person2.get("zip").as(String.class), personTest.get(1).getZip());
-        assertEquals(person2.get("phone").as(String.class), personTest.get(1).getPhone());
-        assertEquals(person2.get("email").as(String.class), personTest.get(1).getEmail());
+    public void listPersonJsonGeneratedWithMultiplePerson() {
+        String str = "{\"persons\": [" +
+                "{ \"firstName\":\"John\",\"lastName\":\"Boyd\", \"address\":\"1509 Culver St\", \"city\":\"Culver\"," +
+                " \"zip\":\"97451\", \"phone\":\"841-874-6512\", \"email\":\"jaboyd@email.com\" }," +
+                "{ \"firstName\":\"Jacob\", \"lastName\":\"Boyd\", \"address\":\"1509 Culver St\", \"city\":\"Culver\"," +
+                " \"zip\":\"97451\", \"phone\":\"841-874-6513\", \"email\":\"drk@email.com\" }" +
+                "]}";
+        Any jsonInput = JsonIterator.deserialize(str);
+        List<PersonJson> personTest = ListGenerator.personsList(jsonInput);
+        assertEquals(2, personTest.size());
     }
-
 
     @Test
     public void listFireStationJsonGenerated() {
-        List<FireStationJson> fireStationTest = ListGenerator.fireStationList();
-        int sizeFireStationTest = fireStationTest.size();
-        int sizeJsonTest = any.get("firestations").size();
-        assertEquals(sizeFireStationTest, sizeJsonTest);
-
+        String str = "{\"firestations\": [" +
+                "{ \"address\":\"1509 Culver St\", \"station\":\"3\" }"+
+                "]}";
+        Any jsonInput = JsonIterator.deserialize(str);
+        List<FireStationJson> fireStationTest = ListGenerator.fireStationList(jsonInput);
+        assertEquals("3", fireStationTest.get(0).getStation());
+        assertEquals("1509 Culver St", fireStationTest.get(0).getAddress());
     }
 
     @Test
-    public void listFireStationJsonGeneratedWithFireStationsData() {
-        List<FireStationJson> fireStationTest = ListGenerator.fireStationList();
-        Any fireStation2 = any.get("firestations").get(1);
-        assertEquals(fireStation2.get("station").as(String.class), fireStationTest.get(1).getStation());
-        assertEquals(fireStation2.get("address").as(String.class), fireStationTest.get(1).getAddress());
-
+    public void listFireStationJsonGeneratedWidthMultipleStation() {
+        String str = "{\"firestations\": [" +
+                "{ \"address\":\"1509 Culver St\", \"station\":\"3\" },"+
+                "{ \"address\":\"29 15th St\", \"station\":\"2\" }" +
+                "]}";
+        Any jsonInput = JsonIterator.deserialize(str);
+        List<FireStationJson> fireStationTest = ListGenerator.fireStationList(jsonInput);
+        assertEquals(2, fireStationTest.size());
     }
 
     @Test
     public void listMedicalRecordGenerated() {
-        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList();
-        int sizeMedicalRecordTest = medicalRecordTest.size();
-        int sizeJsonTest = any.get("medicalrecords").size();
-        assertEquals(sizeMedicalRecordTest, sizeJsonTest);
+        String str = "{\"medicalrecords\": ["+
+                "{ \"firstName\":\"John\", \"lastName\":\"Boyd\", \"birthdate\":\"03/06/1984\", " +
+                "\"medications\":[\"aznol:350mg\", \"hydrapermazol:100mg\"], \"allergies\":[\"nillacilan\"] }"+
+                "]}";
 
+        Any jsonInput = JsonIterator.deserialize(str);
+        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList(jsonInput);
+        assertEquals("John", medicalRecordTest.get(0).getFirstName());
+        assertEquals("Boyd", medicalRecordTest.get(0).getLastName());
+        assertEquals("03/06/1984", medicalRecordTest.get(0).getBirthdate());
+        assertEquals("aznol:350mg", (medicalRecordTest.get(0).getMedications())[0]);
+        assertEquals("hydrapermazol:100mg", (medicalRecordTest.get(0).getMedications())[1]);
+        assertEquals("nillacilan", (medicalRecordTest.get(0).getAllergies())[0]);
     }
 
     @Test
-    public void listMedicalRecordGeneratedWithMedicalRecordsData() {
-        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList();
-        Any medicalRecord2 = any.get("medicalrecords").get(1);
-        assertEquals(medicalRecord2.get("firstName").as(String.class), medicalRecordTest.get(1).getFirstName());
-        assertEquals(medicalRecord2.get("lastName").as(String.class), medicalRecordTest.get(1).getLastName());
-        assertEquals(medicalRecord2.get("birthdate").as(String.class), medicalRecordTest.get(1).getBirthdate());
-        //TODO find solution for get String[]
-     /* assertEquals(medicalRecord2.get("medications").get(String[].class), medicalRecordTest.get(1).getMedications());
-        assertEquals(medicalRecord2.get("allergies").get(String[].class), medicalRecordTest.get(1).getAllergies());*/
+    public void listMedicalRecordGeneratedWithMultipleMedicalRecords() {
+        String str = "{\"medicalrecords\": ["+
+                "{ \"firstName\":\"John\", \"lastName\":\"Boyd\", \"birthdate\":\"03/06/1984\", \"medications\":[\"aznol:350mg\", \"hydrapermazol:100mg\"], \"allergies\":[\"nillacilan\"] },"+
+                "{ \"firstName\":\"Jacob\", \"lastName\":\"Boyd\", \"birthdate\":\"03/06/1989\", \"medications\":[\"pharmacol:5000mg\", \"terazine:10mg\", \"noznazol:250mg\"], \"allergies\":[] }"+
+                "]}";
+        Any jsonInput = JsonIterator.deserialize(str);
+        List<MedicalRecordJson> medicalRecordTest = ListGenerator.medicalRecordsList(jsonInput);
+        assertEquals(2, medicalRecordTest.size());
     }
 }
