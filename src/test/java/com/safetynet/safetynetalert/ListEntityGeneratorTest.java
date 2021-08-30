@@ -3,9 +3,9 @@ package com.safetynet.safetynetalert;
 import com.safetynet.safetynetalert.json.FireStationJson;
 import com.safetynet.safetynetalert.json.MedicalRecordJson;
 import com.safetynet.safetynetalert.json.PersonJson;
-import entity.FireStationEntity;
-import entity.ListEntityGenerator;
-import entity.PersonEntity;
+import com.safetynet.safetynetalert.entity.FireStationEntity;
+import com.safetynet.safetynetalert.entity.ListEntityGenerator;
+import com.safetynet.safetynetalert.entity.PersonEntity;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

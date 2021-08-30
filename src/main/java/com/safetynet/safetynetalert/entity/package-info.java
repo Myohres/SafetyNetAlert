@@ -2,4 +2,4 @@
  * Entities objects for Firestation, Persons, MedicalsRecords.
  * List generator for this entities
  */
-package entity;
+package com.safetynet.safetynetalert.entity;

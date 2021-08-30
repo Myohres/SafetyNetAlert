@@ -1,4 +1,4 @@
-package entity;
+package com.safetynet.safetynetalert.entity;
 
 import lombok.Data;
 

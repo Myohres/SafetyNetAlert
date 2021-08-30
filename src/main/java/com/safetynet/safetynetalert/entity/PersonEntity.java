@@ -1,5 +1,6 @@
-package entity;
+package com.safetynet.safetynetalert.entity;
 
+import com.safetynet.safetynetalert.entity.MedicalRecordEntity;
 import lombok.Data;
 
 import java.util.Date;

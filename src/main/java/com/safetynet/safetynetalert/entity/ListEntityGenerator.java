@@ -1,4 +1,4 @@
-package entity;
+package com.safetynet.safetynetalert.entity;
 
 import com.safetynet.safetynetalert.json.FireStationJson;
 import com.safetynet.safetynetalert.json.MedicalRecordJson;
