@@ -1,10 +1,12 @@
 package com.safetynet.safetynetalert.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class MedicalRecordEntity {
 
     /** Medications List.*/

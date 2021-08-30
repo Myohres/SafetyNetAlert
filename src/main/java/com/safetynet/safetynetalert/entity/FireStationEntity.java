@@ -1,10 +1,12 @@
 package com.safetynet.safetynetalert.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class FireStationEntity {
     /** Station. */
     private Long station;
@@ -17,5 +19,4 @@ public class FireStationEntity {
     public void setStation(final String stationInput) {
         this.station = Long.parseLong(stationInput);
     }
-
 }

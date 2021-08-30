@@ -1,11 +1,12 @@
 package com.safetynet.safetynetalert.entity;
 
-import com.safetynet.safetynetalert.entity.MedicalRecordEntity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 public class PersonEntity {
     /** Firstname PersonEntity. */
     private String firstName;
