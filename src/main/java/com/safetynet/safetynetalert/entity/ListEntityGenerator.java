@@ -60,10 +60,13 @@ public final class ListEntityGenerator {
                                 pe.setBirthDate(newBirthDate);
                             } catch (ParseException e) {
                                 e.printStackTrace();
+                            } finally {
+                                mre.setAllergies(
+                                        Arrays.asList(mrj.getAllergies()));
+                                mre.setMedications(
+                                        Arrays.asList(mrj.getMedications()));
                             }
-                            mre.setAllergies(Arrays.asList(mrj.getAllergies()));
-                            mre.setMedications(
-                                    Arrays.asList(mrj.getMedications()));
+
                         }
                     }
                     return pe;
