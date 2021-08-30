@@ -54,13 +54,15 @@ public final class ListEntityGenerator {
                         if (mrj.getLastName().equals(any1.getLastName())
                                 && (mrj.getFirstName()
                                 .equals(any1.getFirstName()))) {
+                            Date newBirthDate = null;
                             try {
-                                Date newBirthDate = new SimpleDateFormat(
+                                 newBirthDate = new SimpleDateFormat(
                                         "MM/dd/yyyy").parse(mrj.getBirthdate());
                                 pe.setBirthDate(newBirthDate);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             } finally {
+                                pe.setBirthDate(newBirthDate);
                                 mre.setAllergies(
                                         Arrays.asList(mrj.getAllergies()));
                                 mre.setMedications(
