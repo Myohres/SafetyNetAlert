@@ -20,9 +20,12 @@ public class ListEntityGeneratorTest {
     private static List<PersonJson> pjList;
     private static List<FireStationJson> fsjList;
     private static List<MedicalRecordJson> mrjList;
+    private static ListEntityGenerator leGen;
 
     @BeforeAll
     static void initAll(){
+        leGen = ListEntityGenerator.getInstance();
+
         pjList = new ArrayList<>();
         PersonJson pj = new PersonJson();
         pj.setFirstName("Julien");
@@ -70,7 +73,7 @@ public class ListEntityGeneratorTest {
 
     @Test
     public void personsEntityListTest() {
-        List<PersonEntity> personEntityListTest = ListEntityGenerator.personsEntityList(pjList,mrjList);
+        List<PersonEntity> personEntityListTest = leGen.personsEntityList(pjList,mrjList);
         assertEquals("Julien",personEntityListTest.get(0).getFirstName());
         assertEquals("Leroux",personEntityListTest.get(0).getLastName());
         assertEquals("58 rue Lepotre",personEntityListTest.get(0).getAddress());
@@ -88,10 +91,14 @@ public class ListEntityGeneratorTest {
 
     @Test
     public void fireStationEntityListTest() {
-        List<FireStationEntity> fireStationEntityListTest = ListEntityGenerator.fireStationEntityList(fsjList);
+        List<FireStationEntity> fireStationEntityListTest = leGen.fireStationEntityList(fsjList);
         assertEquals(3,fireStationEntityListTest.size());
+        assertEquals(1, fireStationEntityListTest.get(0).getStation());
         assertEquals("834 Binoc Ave",fireStationEntityListTest.get(0).getAddress().get(0));
         assertEquals("112 Steppes Pl",fireStationEntityListTest.get(0).getAddress().get(1));
     }
 
+    //TODO
+    // Test birthdate null (setter and getter)
+    // test birthdate mauvais format pr parser
 }

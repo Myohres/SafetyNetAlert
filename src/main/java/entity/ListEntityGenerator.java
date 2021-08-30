@@ -15,6 +15,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class ListEntityGenerator {
+
+    private static ListEntityGenerator instance;
+
+    public static ListEntityGenerator getInstance() {
+        if (instance == null) {
+            instance = new ListEntityGenerator();
+        }
+        return instance;
+    }
+
     private ListEntityGenerator() {
     }
 
@@ -24,7 +34,7 @@ public final class ListEntityGenerator {
      * @param mrjList List<MedicalRecordJson>
      * @return List<PersonEntity>
      */
-    public static List<PersonEntity> personsEntityList(
+    public List<PersonEntity> personsEntityList(
            final List<PersonJson> pjList,
            final List<MedicalRecordJson> mrjList) {
         return pjList.stream()
@@ -67,7 +77,7 @@ public final class ListEntityGenerator {
      * @param fsjList List<FireStationJson>
      * @return List<FireStationEntity>
      */
-    public static List<FireStationEntity> fireStationEntityList(
+    public List<FireStationEntity> fireStationEntityList(
             final List<FireStationJson> fsjList) {
         TreeMap<String, List<String>> listATrier = new TreeMap<>();
         List<FireStationEntity> fireStationEntityList = new ArrayList<>();
