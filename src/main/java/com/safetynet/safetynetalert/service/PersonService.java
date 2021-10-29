@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalert.service;
 
+import com.safetynet.safetynetalert.entity.MedicalRecordEntity;
 import com.safetynet.safetynetalert.entity.PersonEntity;
 import com.safetynet.safetynetalert.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Date;
-
 
 @Service
 public class PersonService {
@@ -43,13 +43,20 @@ public class PersonService {
      * Get all persons from BDD.
      * @return list persons
      */
-    public List<PersonEntity> getPersons() {
-        return personRepository.findAll();
+    public List<PersonEntity> getPersons()
+            throws NoSuchElementException {
+        List<PersonEntity> peList = personRepository.findAll();
+        if (peList.isEmpty()) {
+            throw  new NoSuchElementException("No person found");
+        }
+        return peList;
     }
+
     /**
      * Get one person with his ID from BDD.
-     * @param id long
+     * @param id Person id
      * @return person
+     * @throws NoSuchElementException If id does not exist
      */
     public PersonEntity getPersonById(final Long id)
             throws NoSuchElementException {
@@ -67,12 +74,19 @@ public class PersonService {
      */
     public List<PersonEntity> getPersonByName(
             final String lastName,
-            final String firstName) {
-        return personRepository
-                .findPersonEntityByFirstNameAndLastName(
+            final String firstName)
+            throws NoSuchElementException {
+        List<PersonEntity> peList =
+                personRepository.findPersonEntityByFirstNameAndLastName(
                         firstName, lastName);
-    }
+        if (peList.isEmpty()) {
+            throw  new NoSuchElementException(
+                    "No person found with name : "
+                            + firstName + " " + lastName);
+        }
+        return  peList;
 
+    }
     /**
      * Get Persons by one address in BDD.
      * @param address String
@@ -80,7 +94,13 @@ public class PersonService {
      */
     public List<PersonEntity> getPersonsByAddress(
             final String address) {
-        return personRepository.findPersonEntityByAddress(address);
+        List<PersonEntity> peList =
+                personRepository.findPersonEntityByAddress(address);
+        if (peList.isEmpty()) {
+            throw new NoSuchElementException(
+                    "No persons found with address : " + address);
+        }
+        return peList;
     }
 
     /**
@@ -90,17 +110,21 @@ public class PersonService {
      */
     public List<PersonEntity> getPersonsByAddresses(
             final List<String> addresses) {
-        return personRepository.findAllByAddressIn(addresses);
+        List<PersonEntity> peList =
+                personRepository.findAllByAddressIn(addresses);
+        if (peList.isEmpty()) {
+            throw  new NoSuchElementException(
+                    "No persons found with address : " + addresses);
+        }
+        return peList;
     }
 
     /**
      * Update Person information.
      * @param personNewInfos PersonEntity
      * @return saving PersonEntity updated
-     * @throws NoSuchElementException
      */
-    public PersonEntity upDatePersonInfo(final PersonEntity personNewInfos)
-            throws NoSuchElementException {
+    public PersonEntity upDatePersonInfo(final PersonEntity personNewInfos) {
         long id = personNewInfos.getId();
         PersonEntity pe = getPersonById(id);
         pe.setAddress(personNewInfos.getAddress());
@@ -110,7 +134,17 @@ public class PersonService {
         pe.setEmail(personNewInfos.getEmail());
         pe.setBirthDate(personNewInfos.getBirthDate());
         pe.setMedicalRecord(personNewInfos.getMedicalRecord());
-        return personRepository.save(pe);
+        personRepository.save(pe);
+        return pe;
+    }
+
+    public List<PersonEntity> getPersonByCity(final String city) {
+        List<PersonEntity> peList =
+                personRepository.findPersonsEntityByCity(city);
+        if (peList.isEmpty()) {
+            throw new NoSuchElementException("No person found in city " + city);
+        }
+        return peList;
     }
 
     /**
@@ -120,10 +154,8 @@ public class PersonService {
      */
     public void deletePersonsByName(
             final String lastName, final String firstName) {
-       List<PersonEntity> peList = personRepository
-               .findPersonEntityByFirstNameAndLastName(firstName, lastName);
-       peList.forEach(personEntity -> personRepository.delete(personEntity));
-
+        List<PersonEntity> peList =  getPersonByName(lastName, firstName);
+        peList.forEach(personEntity -> personRepository.delete(personEntity));
     }
 
     /**
@@ -131,7 +163,8 @@ public class PersonService {
      * @param id long
      */
     public void deletePersonById(final long id) {
-        personRepository.delete(getPersonById(id));
+        PersonEntity pe = getPersonById(id);
+        personRepository.delete(pe);
     }
 
     /**
@@ -139,7 +172,7 @@ public class PersonService {
      * @param birthDate Date
      * @return long age
      */
-    public long getAge(final Date birthDate) {
+    public long calculateAge(final Date birthDate) {
         LocalDate localBirthDate =  birthDate.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -160,7 +193,12 @@ public class PersonService {
         long personYears =
                 ChronoUnit.YEARS.between(localBirthDate, currentDate);
         final long majorAge = 18;
-        return personYears > majorAge;
+        return personYears >= majorAge;
     }
 
+    public PersonEntity getPersonByMedicalRecord(
+            final MedicalRecordEntity mre) {
+        return personRepository.findByMedicalRecord(mre)
+                .orElseThrow(() -> new NoSuchElementException(""));
+    }
 }
