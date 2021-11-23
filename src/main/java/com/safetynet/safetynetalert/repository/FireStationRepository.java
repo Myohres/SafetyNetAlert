@@ -10,9 +10,9 @@ import java.util.List;
 public interface FireStationRepository extends
         CrudRepository<FireStationEntity, Long> {
     /**
-     * Find Stations by one Address.
-     * @param address String
-     * @return List FireStation
+     * Find Stations by one address.
+     * @param address street name and number
+     * @return a fireStation list with address param
      */
     List<FireStationEntity> findFireStationEntityByAddress(String address);
 }
