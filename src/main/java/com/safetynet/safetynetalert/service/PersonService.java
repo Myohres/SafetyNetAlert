@@ -22,18 +22,18 @@ public class PersonService {
     private PersonRepository personRepository;
 
     /**
-     * add PersonEntity to BDD.
-     * @param personEntity PersonEntity
-     * @return save PersonEntity to BDD
+     * add Person to BDD.
+     * @param personEntity new person
+     * @return new person in DB
      */
     public PersonEntity addPerson(final PersonEntity personEntity) {
         return personRepository.save(personEntity);
     }
 
     /**
-     * Add a PersonEntityList to BDD.
-     * @param persons List<PersonEntity>
-     * @return List<PersonEntity>
+     * Add Persons to BDD.
+     * @param persons list of persons
+     * @return a persons list added
      */
     public List<PersonEntity> addPersons(final List<PersonEntity> persons) {
         return  personRepository.saveAll(persons);
@@ -41,7 +41,7 @@ public class PersonService {
 
     /**
      * Get all persons from BDD.
-     * @return list persons
+     * @return a list of all persons
      */
     public List<PersonEntity> getPersons()
             throws NoSuchElementException {
@@ -68,9 +68,9 @@ public class PersonService {
 
     /**
      * Get Persons by Name in BDD.
-     * @param lastName String
-     * @param firstName String
-     * @return List<PersonEntity>
+     * @param lastName lastname person
+     * @param firstName firstname person
+     * @return a list of persons with name param
      */
     public List<PersonEntity> getPersonByName(
             final String lastName,
@@ -89,8 +89,8 @@ public class PersonService {
     }
     /**
      * Get Persons by one address in BDD.
-     * @param address String
-     * @return List<PersonEntity>
+     * @param address street name and number
+     * @return a persons list who live to address in param
      */
     public List<PersonEntity> getPersonsByAddress(
             final String address) {
@@ -104,9 +104,9 @@ public class PersonService {
     }
 
     /**
-     * Get Persons by a address List in BDD.
-     * @param addresses String
-     * @return List<PersonEntity>
+     * Get Persons by an address List in BDD.
+     * @param addresses addresses list
+     * @return a persons list who live to addresses list in param
      */
     public List<PersonEntity> getPersonsByAddresses(
             final List<String> addresses) {
@@ -121,8 +121,8 @@ public class PersonService {
 
     /**
      * Update Person information.
-     * @param personNewInfos PersonEntity
-     * @return saving PersonEntity updated
+     * @param personNewInfos new information for person
+     * @return saving Person updated
      */
     public PersonEntity upDatePersonInfo(final PersonEntity personNewInfos) {
         long id = personNewInfos.getId();
@@ -138,6 +138,11 @@ public class PersonService {
         return pe;
     }
 
+    /**
+     * Get person by city.
+     * @param city city name
+     * @return a persons list who live in city param
+     */
     public List<PersonEntity> getPersonByCity(final String city) {
         List<PersonEntity> peList =
                 personRepository.findPersonsEntityByCity(city);
@@ -149,8 +154,8 @@ public class PersonService {
 
     /**
      * Delete Persons by Name.
-     * @param lastName String
-     * @param firstName String
+     * @param lastName lastname person
+     * @param firstName firstname person
      */
     public void deletePersonsByName(
             final String lastName, final String firstName) {
@@ -160,7 +165,7 @@ public class PersonService {
 
     /**
      * Delete Persons by id.
-     * @param id long
+     * @param id person id
      */
     public void deletePersonById(final long id) {
         PersonEntity pe = getPersonById(id);
@@ -169,8 +174,8 @@ public class PersonService {
 
     /**
      * Calculate age person from his birthdate.
-     * @param birthDate Date
-     * @return long age
+     * @param birthDate person birthdate
+     * @return person age
      */
     public long calculateAge(final Date birthDate) {
         LocalDate localBirthDate =  birthDate.toInstant()
@@ -182,8 +187,8 @@ public class PersonService {
 
     /**
      * Determinate majority person.
-     * @param personEntity PersonEntity
-     * @return true major false minor
+     * @param personEntity person to analyse
+     * @return true major or false minor
      */
     public boolean majorPerson(final PersonEntity personEntity) {
         LocalDate localBirthDate = personEntity.getBirthDate().toInstant()
@@ -196,6 +201,11 @@ public class PersonService {
         return personYears >= majorAge;
     }
 
+    /**
+     * get person by his medical record.
+     * @param mre medical record to person
+     * @return person
+     */
     public PersonEntity getPersonByMedicalRecord(
             final MedicalRecordEntity mre) {
         return personRepository.findByMedicalRecord(mre)

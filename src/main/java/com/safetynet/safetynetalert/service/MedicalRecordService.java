@@ -24,7 +24,7 @@ public class MedicalRecordService {
 
     /**
      * Get all medical Records form BDD.
-     * @return MedicalRecords List
+     * @return a list of all medical records
      */
     public List<MedicalRecordEntity> getMedicalRecords() {
         Iterable<MedicalRecordEntity> iteMre =
@@ -36,23 +36,24 @@ public class MedicalRecordService {
 
     /**
      * Get medical Record by id.
-     * @param id long
-     * @return medical Record
+     * @param id number unique of medical record
+     * @return medical Record with id param
      */
     public MedicalRecordEntity getMedicalRecordById(final Long id)
             throws NoSuchElementException {
         Optional<MedicalRecordEntity> optMre =
                 medicalRecordRepository.findById(id);
         return optMre.orElseThrow(()
-                -> new NoSuchElementException("No MedicalRecord id " + id));
+                -> new NoSuchElementException(
+                        "No MedicalRecord found with id " + id));
     }
 
     /**
      * Get persons List by Name.
-     * Get medical Record for each person.
-     * @param lastName String
-     * @param firstName String
-     * @return Medical Record List
+     * Get medical Record for each persons list.
+     * @param lastName lastname
+     * @param firstName firstname
+     * @return Medical Record List from name param
      */
     public List<MedicalRecordEntity> getMedicalRecordsByPerson(
             final String lastName,
@@ -65,9 +66,9 @@ public class MedicalRecordService {
     }
 
     /**
-     * Get Medication by MedicalRecord id.
-     * @param id long
-     * @return Medication List
+     * Get all medications from a MedicalRecord.
+     * @param id number unique of medical record
+     * @return Medications List
      */
     public List<String> getMedications(final Long id) {
         MedicalRecordEntity mre;
@@ -86,8 +87,8 @@ public class MedicalRecordService {
     }
 
     /**
-     * Get allergies by MedicalRecord id.
-     * @param id long
+     * Get all allergies from a MedicalRecord.
+     * @param id number unique of medical record
      * @return Allergies List
      */
     public List<String> getAllergies(final Long id) {
@@ -107,9 +108,9 @@ public class MedicalRecordService {
     }
 
     /**
-     * Add a medical Record.
-     * @param medicalRecordEntity MedicalRecordEntity
-     * @return save a MedicalRecordEntity in DB.
+     * Add a new medical Record.
+     * @param medicalRecordEntity list of medications and allergies
+     * @return a new MedicalRecordEntity in DB.
      */
     public MedicalRecordEntity addMedicalRecord(
             final MedicalRecordEntity medicalRecordEntity) {
@@ -119,8 +120,8 @@ public class MedicalRecordService {
     /**
      * Add a medication to a medical Record.
      * @param id medical record id
-     * @param medication String
-     * @return update Medical record
+     * @param medication new medication
+     * @return updated Medical record
      */
     public MedicalRecordEntity addMedication(
             final long id,
@@ -139,8 +140,8 @@ public class MedicalRecordService {
     /**
      * Add an allergy to a medical Record.
      * @param id medical record id
-     * @param allergy String
-     * @return update Medical record
+     * @param allergy new allergy
+     * @return updated Medical record
      */
     public MedicalRecordEntity addAllergy(
             final long id,
@@ -158,9 +159,9 @@ public class MedicalRecordService {
 
     /**
      * Update Medical Record.
-     * @param id medical record id
-     * @param medicalRecordEntity MedicalRecordEntity
-     * @return Update Medical Record
+     * @param id medical record to change
+     * @param medicalRecordEntity new information for medical record to change
+     * @return Updated Medical Record
      */
     public MedicalRecordEntity replaceMedicalRecord(
             final long id,
@@ -172,11 +173,11 @@ public class MedicalRecordService {
     }
 
     /**
-     * Update an allergy Medical Record.
-     * @param id Medical Record id
-     * @param oldAllergy String
-     * @param newAllergy String
-     * @return Update Medical Record
+     * Update an allergy on a Medical Record.
+     * @param id Medical Record to update
+     * @param oldAllergy allergy to modified
+     * @param newAllergy new allergy
+     * @return Medical Record Updated
      */
     public MedicalRecordEntity changeAllergy(
             final long id,
@@ -190,10 +191,10 @@ public class MedicalRecordService {
 
     /**
      * Update a medication Medical Record.
-     * @param id Medical Record id
-     * @param oldMedication String
-     * @param newMedication String
-     * @return Update Medical Record
+     * @param id Medical Record to update
+     * @param oldMedication Medication to modified
+     * @param newMedication new medication
+     * @return Medical Record Updated
      */
     public MedicalRecordEntity changeMedication(
             final long id,
@@ -207,7 +208,7 @@ public class MedicalRecordService {
 
     /**
      * Delete a medicalRecord by id.
-     * @param id medicalRecord id
+     * @param id medicalRecord to delete
      */
     public void delMedicalRecordsById(final long id) {
         MedicalRecordEntity mre = getMedicalRecordById(id);
@@ -219,8 +220,8 @@ public class MedicalRecordService {
 
     /**
      * Delete a medical Record by person.
-     * @param lastName String
-     * @param firstName String
+     * @param lastName lastname
+     * @param firstName firstname
      */
     public void delMedicalRecordsByPerson(
             final String lastName,
@@ -233,8 +234,8 @@ public class MedicalRecordService {
 
     /**
      * Delete all medications from a medical record.
-     * @param id medical record id
-     * @return MedicalRecord
+     * @param id medical record to modified
+     * @return MedicalRecord updated
      */
     public MedicalRecordEntity clearMedications(final long id) {
         MedicalRecordEntity mre = getMedicalRecordById(id);
@@ -245,9 +246,9 @@ public class MedicalRecordService {
 
     /**
      * Delete a medication from a medical record.
-     * @param id medical record id
-     * @param medication String
-     * @return medicalRecord
+     * @param id medical record to modified
+     * @param medication medication to delete
+     * @return medicalRecord updated
      */
     public MedicalRecordEntity delOneMedication(
             final long id,
@@ -263,8 +264,8 @@ public class MedicalRecordService {
 
     /**
      * Delete all allergies form a medical record.
-     * @param id medical record id
-     * @return medicalRecord
+     * @param id medical record to modified
+     * @return medicalRecord updated
      */
     public MedicalRecordEntity clearAllergies(final long id) {
         MedicalRecordEntity mre = getMedicalRecordById(id);
@@ -274,9 +275,9 @@ public class MedicalRecordService {
 
     /**
      * Delete an allergy from a medical record.
-     * @param id medical record id
-     * @param allergy String
-     * @return medicalRecord
+     * @param id medical record to modified
+     * @param allergy allergy to delete
+     * @return medicalRecord updated
      */
     public MedicalRecordEntity delOneAllergy(
             final long id, final String allergy) {

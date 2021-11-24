@@ -34,11 +34,12 @@ public class URLService {
     private FireStationService fireStationService;
 
     /**
-     * Get addresses list By firestation.
-     * Get persons by this address List collected,
+     * Get persons served by a fire Station.
+     * Get an addresses list by a fireStation
+     * Get persons by this addresses list,
      * iterate adult and child number.
-     * @param id long FireStation id
-     * @return List Persons
+     * @param id station number
+     * @return Persons list
      */
     public PersonsByFireStationAddressesDTO getPersonByFireStation(
             final long id) {
@@ -69,8 +70,8 @@ public class URLService {
     /**
      * Get child list by address.
      * Get adult List by address.
-     * @param address String
-     * @return Family object contain the two lists
+     * @param address street name and number
+     * @return child list and adult list
      */
     public FamilyByAddressDTO getFamilyByAddress(final String address) {
         FamilyByAddressDTO familyByAddressDTO = new FamilyByAddressDTO();
@@ -101,10 +102,11 @@ public class URLService {
     }
 
     /**
+     * Get phone number from person served by a fireStation.
      * Get addresses List by FireStation.
      * Get persons List by Adresses List,
      * Get phone List by persons List.
-     * @param id long fireStation id
+     * @param id station number
      * @return phone List
      */
     public List<String> getPhoneByFireStation(final long id) {
@@ -119,13 +121,14 @@ public class URLService {
     }
 
     /**
+     * Get Persons lived in address fire.
      * Get FireStations List by address,
-     * Send firestation to object firestation list.
+     * Send fireStation to fireStation list.
      * Get persons List by address,
      * Send persons List to personDTO List,
      * Send personDTO list to object list person
-     * @param address String
-     * @return Object contain fireStation List and Persons List
+     * @param address address on fire
+     * @return fireStations List and Persons List
      */
     public PersonsWhenFireDTO getPersonsWhenFireByAddress(
             final String address) {
@@ -156,13 +159,11 @@ public class URLService {
      *  send personEntity to personDTO
      *  add personDTO to List personsDTO
      *  add list personsDTO and address to foyerDTO
-     * @param fireStations List id fireStations
-     * @return object list : Address List with persons associated
+     * @param fireStations station list
+     * @return  Address List with persons associated
      */
     public Map<String, List<PersonNamePhoneAgeMedical>> getFoyersByFireStations(
             final List<Long> fireStations) {
-        /*List<Map<String, List<PersonNamePhoneAgeMedical>>> foyersDTOList =
-                new ArrayList<>();*/
         Map<String, List<PersonNamePhoneAgeMedical>> foyerMap = new TreeMap<>();
         List<String> addressList =
                 fireStationService.getAddressByFireStations(fireStations);
@@ -179,27 +180,13 @@ public class URLService {
                     foyerMap.put(address, personsDTOList);
                 });
         return foyerMap;
-       /* addressList.forEach(address -> {
-            Map<String, List<PersonNamePhoneAgeMedical>> foyerMap = new TreeMap<>();
-            List<PersonNamePhoneAgeMedical> personsDTOList =
-                    personService.getPersonsByAddress(address)
-                            .stream()
-                            .map(any -> {
-                                PersonNamePhoneAgeMedical peDTO = new PersonNamePhoneAgeMedical();
-                                peDTO.setPersonPhAgMrDTO(any);
-                                return peDTO;
-                            }).collect(Collectors.toList());
-            foyerMap.put(address, personsDTOList);
-            foyersDTOList.add(foyerMap);
-        });
-        return foyersDTOList;*/
     }
 
     /**
      * Get persons List by Name.
      * Send personsEntity to personDTO
-     * @param firstName String
-     * @param lastName String
+     * @param firstName firstname person
+     * @param lastName lastname person
      * @return persons DTO list
      */
     public List<PersonFullDTO> getPersonInfo(
@@ -228,7 +215,7 @@ public class URLService {
     /**
      * Get all persons List by city.
      * Collect Person email.
-     * @param city String
+     * @param city city name
      * @return Emails list
      * */
     public List<String> getEmailsCity(final String city)  {

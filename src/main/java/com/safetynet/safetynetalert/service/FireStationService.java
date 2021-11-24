@@ -22,7 +22,7 @@ public class FireStationService {
 
     /**
      * Get all FireStation from BDD.
-     * @return List<FireStationEntity>
+     * @return a list with all fire stations
      */
     public List<FireStationEntity> getFireStations() {
         Iterable<FireStationEntity> iteFse = fireStationRepository.findAll();
@@ -32,9 +32,9 @@ public class FireStationService {
     }
 
     /**
-     * Get a FireStation by id from BDD.
-     * @param id long
-     * @return FireStationEntity
+     * Get a FireStation by his id from BDD.
+     * @param id number of fire station
+     * @return a fire station with id param
      */
     public FireStationEntity getFireStationById(final long id)
             throws NoSuchElementException {
@@ -46,8 +46,8 @@ public class FireStationService {
 
     /**
      * Get FireStations by Address from BDD.
-     * @param address String
-     * @return List<FireStationEntity>
+     * @param address street name and number
+     * @return a fire station list who serve at this address
      */
     public List<FireStationEntity> getFireStationByAddress(
             final String address) throws NoSuchElementException {
@@ -62,8 +62,8 @@ public class FireStationService {
 
     /**
      * Get Addresses from a FireStation.
-     * @param id long
-     * @return List<String>
+     * @param id number of fire station
+     * @return addresses served by this fire station
      */
     public List<String> getAddressByFireStation(final long id) {
         FireStationEntity fse = getFireStationById(id);
@@ -76,8 +76,8 @@ public class FireStationService {
 
     /**
      * Get Address from several FireStations.
-     * @param fireStations id List
-     * @return List<String>
+     * @param fireStations stations list
+     * @return addresses served by fire station list
      */
     public List<String> getAddressByFireStations(
             final List<Long> fireStations) throws NoSuchElementException {
@@ -102,9 +102,9 @@ public class FireStationService {
      * Move addresses from old station to new Station.
      * If new Station is already existing, juste moving addresses.
      * Delete old station.
-     * @param oldId long
-     * @param newId long
-     * @return fireStation
+     * @param oldId station number to change
+     * @param newId new number station
+     * @return fireStation with new number
      */
     public FireStationEntity changeStationNumber(
             final long oldId, final String newId) {
@@ -130,11 +130,11 @@ public class FireStationService {
 
     /**
      * Copy an address from a station to an other station.
-     * Delete Aadress from old station.
-     * @param oldId long
-     * @param address String
-     * @param newId long
-     * @return firestation
+     * Delete Address from old station.
+     * @param oldId origin station number
+     * @param address street name and number
+     * @param newId destination station number
+     * @return destination fire station updated
      */
     public FireStationEntity moveAddressStation(
             final long oldId, final String address, final long newId) {
@@ -161,24 +161,19 @@ public class FireStationService {
     }
 
     /** add FireStationEntity to BDD.
-     * @param fireStationEntity FireStationEntity
-     * @return save FireStationEntity to BDD
+     * @param fireStationEntity new fire station
+     * @return new Fire station in BDD
      */
     public FireStationEntity addFireStation(
             final FireStationEntity fireStationEntity) {
-       /* long id = fireStationEntity.getStation();
-        if (!fireStationRepository.existsById(id)) {*/
         fireStationRepository.save(fireStationEntity);
         return fireStationEntity;
-       /* }
-        System.out.println("Station " +id +" exist already");
-        return fireStationEntity;*/
     }
 
     /**
      * Add an address to a fireStation.
-     * @param address String
-     * @param id long
+     * @param address street name and number
+     * @param id number of fire station
      * @return saving fireStation updated to BDD
      */
     public FireStationEntity addAddress(
@@ -193,7 +188,7 @@ public class FireStationService {
 
     /**
      * Delete fireStation by id.
-     * @param id lon
+     * @param id number of fire station
      */
     public void deleteFireStation(final long id) {
         fireStationRepository.delete(getFireStationById(id));
@@ -201,9 +196,9 @@ public class FireStationService {
 
     /**
      * Delete an address by fireStation id.
-     * @param id long
-     * @param address String
-     * @return fireStation
+     * @param id number of fire station
+     * @param address street name and number
+     * @return fireStation updated
      */
     public FireStationEntity deleteAddressStation(
             final long id, final String address) {
@@ -222,8 +217,8 @@ public class FireStationService {
 
     /**
      * Delete all addresses from a fireStation by id.
-     * @param id long
-     * @return fireStation
+     * @param id number of fire station
+     * @return fireStation updated
      */
     public FireStationEntity deleteAllAddressesStation(final long id) {
         FireStationEntity fse = getFireStationById(id);
