@@ -38,7 +38,6 @@ class MedicalRecordServiceTest {
     PersonEntity pe1 = new PersonEntity();
     PersonEntity pe2 = new PersonEntity();
     MedicalRecordEntity mre1 = new MedicalRecordEntity();
-    MedicalRecordEntity mr2 = new MedicalRecordEntity();
 
     @BeforeAll
     static void beforeAll() {

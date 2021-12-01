@@ -271,9 +271,7 @@ public class PersonServiceTest {
 
     @Test
     public void getPersonByMedicalRecordNoPersonFoundTest(){
-        PersonEntity pe = new PersonEntity();
         MedicalRecordEntity mre = new MedicalRecordEntity();
-        pe.setMedicalRecord(mre);
         when(personRepository.findByMedicalRecord(mre)).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class,
                 ()-> personService.getPersonByMedicalRecord(mre));
