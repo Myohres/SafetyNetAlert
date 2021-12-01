@@ -7,12 +7,16 @@ import com.safetynet.safetynetalert.entity.FireStationEntity;
 import com.safetynet.safetynetalert.entity.ListEntityGenerator;
 import com.safetynet.safetynetalert.entity.PersonEntity;
 
+import com.safetynet.safetynetalert.repository.PersonRepository;
+import com.safetynet.safetynetalert.service.PersonService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Table;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -26,7 +30,7 @@ public class ListEntityGeneratorTest {
 
     @BeforeAll
     static void initAll(){
-        leGen = ListEntityGenerator.getInstance();
+        leGen = new ListEntityGenerator();
     }
 
     @BeforeEach
@@ -127,7 +131,7 @@ public class ListEntityGeneratorTest {
         fsj4.setStation("1");
         fsjList.add(fsj4);
         List<FireStationEntity> fireStationEntityListTest = leGen.fireStationEntityList(fsjList);
-        assertEquals(3,fireStationEntityListTest.size());
+        assertEquals(4,fireStationEntityListTest.size());
         assertEquals(1, fireStationEntityListTest.get(0).getStation());
         assertEquals("834 Binoc Ave",fireStationEntityListTest.get(0).getAddress().get(0));
         assertEquals("112 Steppes Pl",fireStationEntityListTest.get(0).getAddress().get(1));
