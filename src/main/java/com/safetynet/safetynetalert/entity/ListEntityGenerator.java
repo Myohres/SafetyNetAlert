@@ -3,30 +3,17 @@ package com.safetynet.safetynetalert.entity;
 import com.safetynet.safetynetalert.json.FireStationJson;
 import com.safetynet.safetynetalert.json.MedicalRecordJson;
 import com.safetynet.safetynetalert.json.PersonJson;
+import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.TreeMap;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public final class ListEntityGenerator {
-
-    private static ListEntityGenerator instance;
-
-    public static ListEntityGenerator getInstance() {
-        if (instance == null) {
-            instance = new ListEntityGenerator();
-        }
-        return instance;
-    }
-
-    private ListEntityGenerator() {
-    }
 
     /**
      * Generate a list with PersonEntity type.
@@ -35,8 +22,8 @@ public final class ListEntityGenerator {
      * @return List<PersonEntity>
      */
     public List<PersonEntity> personsEntityList(
-           final List<PersonJson> pjList,
-           final List<MedicalRecordJson> mrjList) {
+            final List<PersonJson> pjList,
+            final List<MedicalRecordJson> mrjList) {
         return pjList.stream()
                 .map(any1 -> {
                     PersonEntity pe = new PersonEntity();
@@ -56,19 +43,20 @@ public final class ListEntityGenerator {
                                 .equals(any1.getFirstName()))) {
                             Date newBirthDate = null;
                             try {
-                                 newBirthDate = new SimpleDateFormat(
+                                newBirthDate = new SimpleDateFormat(
                                         "MM/dd/yyyy").parse(mrj.getBirthdate());
                                 pe.setBirthDate(newBirthDate);
                             } catch (ParseException e) {
-                                e.printStackTrace();
+                                System.err.println("Invalid date format : "
+                                        + mrj.getBirthdate());
                             } finally {
                                 pe.setBirthDate(newBirthDate);
                                 mre.setAllergies(
                                         Arrays.asList(mrj.getAllergies()));
                                 mre.setMedications(
                                         Arrays.asList(mrj.getMedications()));
+                                pe.setMedicalRecord(mre);
                             }
-
                         }
                     }
                     return pe;
@@ -77,34 +65,30 @@ public final class ListEntityGenerator {
 
     /**
      * Generate a list with FireStationEntity type.
-     * Order a List<FireStationJson> in a treemap
-     * Send treemap data to List<FireStationEntity>
+     * collect all stations and distinct them
+     * add address next
      * @param fsjList List<FireStationJson>
      * @return List<FireStationEntity>
      */
     public List<FireStationEntity> fireStationEntityList(
             final List<FireStationJson> fsjList) {
-        TreeMap<String, List<String>> listATrier = new TreeMap<>();
-        List<FireStationEntity> fireStationEntityList = new ArrayList<>();
-        for (FireStationJson fsj: fsjList
-        ) {
-            if (!(listATrier.containsKey(fsj.getStation()))) {
-                List<String> addressNew = new ArrayList<>();
-                addressNew.add(fsj.getAddress());
-                listATrier.put(fsj.getStation(), addressNew);
-            } else if (listATrier.containsKey(fsj.getStation())) {
-                listATrier.get(fsj.getStation()).add(fsj.getAddress());
-            }
-        }
-        for (final Map.Entry<String,
-                List<String>> entry : listATrier.entrySet()) {
-            FireStationEntity fse = new FireStationEntity();
-            final String key = entry.getKey();
-            final List<String> value = entry.getValue();
-            fse.setStation(key);
-            fse.setAddress(value);
-            fireStationEntityList.add(fse);
-        }
+
+        List<FireStationEntity> fireStationEntityList = fsjList
+                .stream()
+                .map(fireStationJson -> {
+                    FireStationEntity fse = new FireStationEntity();
+                    fse.setStation(fireStationJson.getStation());
+                    return fse;
+                }).distinct().collect(Collectors.toList());
+        fireStationEntityList.forEach(fireStationEntity -> {
+            fireStationEntity.setAddress(fsjList.stream()
+                    .filter(fireStationJson ->
+                            Long.valueOf(fireStationJson.getStation())
+                                    .equals(fireStationEntity.getStation()))
+                    .map(FireStationJson::getAddress)
+                    .collect(Collectors.toList()));
+        });
+
         return fireStationEntityList;
     }
 }
