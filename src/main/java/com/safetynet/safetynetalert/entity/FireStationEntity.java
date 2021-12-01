@@ -3,20 +3,32 @@ package com.safetynet.safetynetalert.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ElementCollection;
+
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
 public class FireStationEntity {
-    /** Station. */
+    /** Primary Key Station. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long station;
-    /** Address List. */
+    /** Address List.*/
+    @ElementCollection
     private List<String> address;
     /**
-     * Setter for station with parsing into long type.
-     * @param stationInput String Station
+     * Setter for Station.
+     * Parsing String to Long
+     * @param stationInput String
      */
     public void setStation(final String stationInput) {
         this.station = Long.parseLong(stationInput);
     }
+
 }

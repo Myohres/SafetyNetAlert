@@ -1,13 +1,25 @@
 package com.safetynet.safetynetalert.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.Date;
 
 @Getter
 @Setter
-public class PersonEntity {
+@Entity
+public class PersonEntity  {
+    /** Primary key Id. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     /** Firstname PersonEntity. */
     private String firstName;
     /** Lastname PersonEntity. */
@@ -23,10 +35,12 @@ public class PersonEntity {
     /** Email PersonEntity. */
     private String email;
     /** Birthdate PersonEntity. */
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
-    /** Medical Records PersonEntity. */
-    private MedicalRecordEntity medicalRecord;
 
+    /** Medical Records PersonEntity.*/
+    @OneToOne(cascade = CascadeType.ALL)
+    private MedicalRecordEntity medicalRecord = new MedicalRecordEntity();
     /**
      * Setter for BirthDate.
      * @param birthDateInput new Date Birthdate
