@@ -22,9 +22,16 @@ import java.util.NoSuchElementException;
 @RequestMapping("/persons")
 public class PersonsController {
 
+    /**
+     * Person service layer.
+     */
     @Autowired
     private PersonService personService;
 
+    /**
+     * Get all persons.
+     * @return a list of all persons
+     */
     @GetMapping("")
     public ResponseEntity<Iterable<PersonEntity>> getPersons() {
         log.info("GET/");
@@ -36,6 +43,11 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Get person by his id.
+     * @param id person number
+     * @return person corresponding to id
+     */
     @GetMapping("/id/{id}")
     public ResponseEntity<PersonEntity> getPerson(
             @PathVariable("id") final Long id) {
@@ -48,6 +60,12 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Get persons by her name.
+     * @param lastName person lastname
+     * @param firstName person firstname
+     * @return a list with persons corresponding to name
+     */
     @GetMapping("/lastname/{lastName}/firstname/{firstName}")
     public ResponseEntity<List<PersonEntity>> getPersonByName(
             @PathVariable("lastName") final String lastName,
@@ -62,6 +80,11 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Get persons by address.
+     * @param address street name and number
+     * @return a list of persons who live in address
+     */
     @GetMapping("address/{address}")
     public ResponseEntity<List<PersonEntity>> getPersonsByAddress(
             @PathVariable("address") final String address) {
@@ -75,10 +98,15 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Add a person.
+     * @param personEntity person to add
+     * @return person added
+     */
     @PostMapping("")
     public ResponseEntity<PersonEntity> addPerson(
             @RequestBody final PersonEntity personEntity) {
-        log.info("POST/" +personEntity);
+        log.info("POST/");
         try {
             return ResponseEntity.ok(personService.addPerson(personEntity));
         } catch (NoSuchElementException e) {
@@ -87,10 +115,15 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Update person information.
+     * @param personEntity person with new information
+     * @return person updated
+     */
     @PutMapping("")
     public ResponseEntity<PersonEntity> updatePerson(
             @RequestBody final PersonEntity personEntity) {
-        log.info("PUT/" +personEntity);
+        log.info("PUT/");
         try {
             return ResponseEntity.ok(
                     personService.upDatePersonInfo(personEntity));
@@ -100,12 +133,18 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Delete person by his name.
+     * @param lastName person lastname
+     * @param firstName person fistname
+     * @return delete person
+     */
     @DeleteMapping("/lastname/{lastName}/firstname/{firsName}")
     public ResponseEntity<?> deletePersonsByName(
             @PathVariable("lastName") final String lastName,
             @PathVariable("firsName") final String firstName) {
-        log.info("DELETE/lastname/" + lastName +
-                "/firstname/" + firstName);
+        log.info("DELETE/lastname/" + lastName
+                + "/firstname/" + firstName);
         try {
             personService.deletePersonsByName(lastName, firstName);
             return ResponseEntity.ok().build();
@@ -115,13 +154,18 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Delete person by his id.
+     * @param id person number
+     * @return delete person
+     */
     @DeleteMapping("/id/{id}")
     public ResponseEntity<?> deletePersonById(
             @PathVariable ("id") final long id) {
         log.info("DELETE/persons/id/ " + id);
         try {
             personService.deletePersonById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (NoSuchElementException e) {
             log.error("DeletePersonById " + e.getMessage());
             return ResponseEntity.notFound().build();

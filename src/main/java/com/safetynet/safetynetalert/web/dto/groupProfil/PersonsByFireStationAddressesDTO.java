@@ -10,8 +10,17 @@ import java.util.List;
 @Setter
 public class PersonsByFireStationAddressesDTO {
 
+    /**
+     * Persons list with Name, address and phone.
+     */
     private List<PersonNameAddressPhoneDTO> persons;
+    /**
+     * Adult number present in foyer.
+     */
     private int nbAdult;
+    /**
+     * Child number present in foyer.
+     */
     private int nbChild;
 
 }

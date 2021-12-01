@@ -11,6 +11,12 @@ import java.util.List;
 @Setter
 public class FamilyByAddressDTO {
 
+    /**
+     * Child list with Name and age.
+     */
     private List<PersonNameAgeDTO> childList;
+    /**
+     * Adult list with just name.
+     */
     private List<PersonNameDTO> adultList;
 }

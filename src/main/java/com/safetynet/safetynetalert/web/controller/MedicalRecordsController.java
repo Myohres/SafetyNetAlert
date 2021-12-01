@@ -29,7 +29,7 @@ public class MedicalRecordsController {
 
     /**
      * Get all medicalRecord.
-     * @return Iterable Medical Record
+     * @return a list of all Medical Records
      */
     @GetMapping("")
     public Iterable<MedicalRecordEntity> getMedicalRecords() {
@@ -38,9 +38,9 @@ public class MedicalRecordsController {
     }
 
     /**
-     * Get a medicalRecord by id.
-     * @param id long
-     * @return MedicalRecord
+     * Get a medicalRecord by his id.
+     * @param id medical record number
+     * @return MedicalRecord with id param
      */
     @GetMapping("/id/{id}")
     public ResponseEntity<MedicalRecordEntity> getMedicalRecordById(
@@ -50,16 +50,16 @@ public class MedicalRecordsController {
             return ResponseEntity.ok(
                     medicalRecordService.getMedicalRecordById(id));
         } catch (NoSuchElementException e) {
-            log.error(e.getMessage());
+            log.error("GetMedicalRecordById error : " + e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
     /**
-     * Get a medicalRecord by Person Name.
-     * @param lastName String
-     * @param firstName String
-     * @return List MedicalRecord
+     * Get a medicalRecord by person Name.
+     * @param lastName person lastname
+     * @param firstName person firstname
+     * @return list of medical record corresponding to person name
      */
    @GetMapping("/lastname/{lastName}/firstname/{firstName}")
     public ResponseEntity<List<MedicalRecordEntity>> getMedicalRecordByPerson(
@@ -70,15 +70,15 @@ public class MedicalRecordsController {
            return ResponseEntity.ok(medicalRecordService
                    .getMedicalRecordsByPerson(lastName, firstName));
        } catch (NoSuchElementException e) {
-           log.error(e.getMessage());
+           log.error("GetMedicalRecordByPerson error : " + e.getMessage());
            return  ResponseEntity.notFound().build();
        }
     }
 
     /**
      * Add a medical Record.
-     * @param mre MedicalRecord
-     * @return MedicalRecord
+     * @param mre medical record to add
+     * @return the new medical record
      */
     @PostMapping("")
     public ResponseEntity<MedicalRecordEntity> addMedicalRecord(
@@ -95,9 +95,29 @@ public class MedicalRecordsController {
     }
 
     /**
+     * Add a medication to a medicalRecord.
+     * @param id number of medical record to update
+     * @param medication medication to add
+     * @return medical record updated with new medication
+     */
+    @PutMapping("/id/{id}/medication/{medication}")
+    public ResponseEntity<MedicalRecordEntity> addMedication(
+            @PathVariable("id") final long id,
+            @PathVariable("medication") final String medication) {
+        log.info("PUT/id/" + id + "/medication/" + medication);
+        try {
+            return ResponseEntity.ok(
+                    medicalRecordService.addMedication(id, medication));
+        } catch (NoSuchElementException e) {
+            log.error("Add medication error : " + e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
      * Replace a medicalRecord by an other.
-     * @param id long
-     * @param mre MedicalRecord
+     * @param id number of medical record to update
+     * @param mre medical record to injected into medical record id param
      * @return  medicalRecord updated
      */
     @PutMapping("/{id}")
@@ -115,30 +135,10 @@ public class MedicalRecordsController {
     }
 
     /**
-     * Add a medication to a medicalRecord.
-     * @param id long
-     * @param medication String
-     * @return add new medication String
-     */
-    @PutMapping("/id/{id}/medication/{medication}")
-    public ResponseEntity<MedicalRecordEntity> addMedication(
-            @PathVariable("id") final long id,
-            @PathVariable("medication") final String medication) {
-        log.info("PUT/id/" + id + "/medication/" + medication);
-        try {
-            return ResponseEntity.ok(
-                    medicalRecordService.addMedication(id, medication));
-        } catch (NoSuchElementException e) {
-            log.error("Add medication error : " + e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    /**
      * Add an allergy to a medicalRecord.
-     * @param id long
-     * @param allergy String
-     * @return add a new allergy String
+     * @param id number of medical record to update
+     * @param allergy allergy to add
+     * @return medicalRecord with new allergy added
      */
     @PutMapping("/id/{id}/allergy/{allergy}")
     public ResponseEntity<MedicalRecordEntity> addAllergy(
@@ -155,9 +155,9 @@ public class MedicalRecordsController {
     }
 
     /**
-     * Delete a medicalRecord by id.
-     * @param id long
-     * @return ResponseEntity
+     * Delete a medicalRecord by his id.
+     * @param id number of medical record to delete
+     * @return delete medical record
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delMedicalRecordById(
@@ -174,9 +174,9 @@ public class MedicalRecordsController {
 
     /**
      * Delete medical record by person name.
-     * @param lastName String
-     * @param firstName String
-     * @return ResponseEntity
+     * @param lastName person lastname
+     * @param firstName person firstname
+     * @return delete medical record
      */
     @DeleteMapping("/lastname/{lastName}/firstname/{firstName}")
     public ResponseEntity<?> delMedicalRecordByPerson(
@@ -195,9 +195,9 @@ public class MedicalRecordsController {
 
     /**
      * Delete a medication from a medicalRecord.
-      * @param id long
-     * @param medication String
-     * @return ResponseEntity
+     * @param id number of medical record to update
+     * @param medication medication to delete
+     * @return medical record updated
      */
     @DeleteMapping("/id/{id}/medication/{medication}")
     public ResponseEntity<MedicalRecordEntity> delOneMedication(
@@ -215,9 +215,9 @@ public class MedicalRecordsController {
 
     /**
      * Delete an allergy from a medicalRecord.
-     * @param id long
-     * @param allergy String
-     * @return ResponseEntity
+     * @param id number of medical record to update
+     * @param allergy allergy to delete
+     * @return medical record updated
      */
     @DeleteMapping("/id/{id}/allergy/{allergy}")
     public ResponseEntity<MedicalRecordEntity> delOneAllergy(
@@ -235,8 +235,8 @@ public class MedicalRecordsController {
 
     /**
      * Delete all medications from a MedicalRecord.
-     * @param id long
-     * @return ResponseEntity
+     * @param id number of medical record to update
+     * @return medical record updated without all medications
      */
     @DeleteMapping("/id/{id}/medications")
     public ResponseEntity<MedicalRecordEntity> clearMedications(
@@ -253,8 +253,8 @@ public class MedicalRecordsController {
 
     /**
      * Delete all allergies from a MedicalRecord.
-     * @param id long
-     * @return ResponseEntity
+     * @param id number of medical record to update
+     * @return medical record updated without all medications
      */
     @DeleteMapping("/id/{id}/allergies")
     public ResponseEntity<MedicalRecordEntity> clearAllergies(

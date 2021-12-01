@@ -30,7 +30,7 @@ public class FireStationsController {
 
     /**
      * Get all FireStations.
-     * @return Iterable<FireStationEntity>
+     * @return a list with all fireStation
      */
     @GetMapping("")
     public Iterable<FireStationEntity> getFireStations() {
@@ -39,9 +39,9 @@ public class FireStationsController {
     }
 
     /**
-     * Get fireStation by id.
-     * @param id long
-     * @return FireStation
+     * Get fireStation by his id.
+     * @param id fireStation number
+     * @return a FireStation
      */
     @GetMapping("/id/{id}")
     public ResponseEntity<FireStationEntity> getFireStationById(
@@ -57,8 +57,8 @@ public class FireStationsController {
 
     /**
      * Get fireStations by address.
-     * @param address String
-     * @return fireStation List
+     * @param address street name and number
+     * @return a list of FireStation who served in address
      */
     @GetMapping("/address")
     public ResponseEntity<List<FireStationEntity>> getStationByAddress(
@@ -75,8 +75,8 @@ public class FireStationsController {
 
     /**
      * Add a fireStation.
-     * @param fireStationEntity FireStation
-     * @return fireStation
+     * @param fireStationEntity Station number and address list served
+     * @return a new fireStation
      */
     @PostMapping("/station")
     public ResponseEntity<FireStationEntity> addFireStation(
@@ -92,9 +92,9 @@ public class FireStationsController {
 
     /**
      * Add an address to a fireStation.
-     * @param address String
-     * @param id long
-     * @return FireStation
+     * @param address Street name and number
+     * @param id station number
+     * @return FireStation updated with new address
      */
     @PostMapping("/id/{id}/address")
     public ResponseEntity<FireStationEntity> addAddress(
@@ -112,17 +112,18 @@ public class FireStationsController {
 
     /**
      * Move an address from a fireStation to an other fireStation.
-     * @param oldId long
-     * @param newId long
-     * @param address String
-     * @return FireStation
+     * @param oldId station to take address
+     * @param newId station who received address
+     * @param address street name and number
+     * @return FireStation updated with new address
      */
     @PutMapping("/oldId/{oldId}/newId/{newId}/address")
     public ResponseEntity<FireStationEntity> moveAddressStation(
             @PathVariable("oldId") final long oldId,
             @PathVariable("newId") final long newId,
             @RequestParam("address") final String address) {
-        log.info("PUT/oldId/" + oldId + "/newId/" + newId +"/address/" + address);
+        log.info("PUT/oldId/" + oldId + "/newId/"
+                + newId + "/address/" + address);
         try {
             return ResponseEntity.ok(
                     fireStationService.moveAddressStation(
@@ -135,15 +136,15 @@ public class FireStationsController {
 
     /**
      * Change the number of a FireStation.
-     * @param oldId long
-     * @param newId long
-     * @return firestation
+     * @param oldId Station to change
+     * @param newId new station number
+     * @return fireStation updated
      */
     @PutMapping("/oldId/{oldId}/newId/{newId}")
     public ResponseEntity<FireStationEntity> changeStationNumber(
             @PathVariable("oldId") final long oldId,
             @PathVariable("newId") final String newId) {
-        log.info("PUT/oldId/" +oldId + "/newId/" + newId);
+        log.info("PUT/oldId/" + oldId + "/newId/" + newId);
         try {
             return ResponseEntity.ok(
                     fireStationService.changeStationNumber(oldId, newId));
@@ -155,8 +156,8 @@ public class FireStationsController {
 
     /**
      * Delete a fireStation.
-     * @param station long
-     * @return ResponseEntity
+     * @param station station number to delete
+     * @return delete station
      */
     @DeleteMapping("/id/{id}")
     public ResponseEntity<?> delFireStation(
@@ -173,9 +174,9 @@ public class FireStationsController {
 
     /**
      * Delete an address from a fireStation.
-     * @param address String
-     * @param id long
-     * @return responseEntity
+     * @param address street name and number
+     * @param id station number to delete address
+     * @return fireStation updated
      */
     @DeleteMapping("/id/{id}/address")
     public ResponseEntity<FireStationEntity> deleteAddressStation(
@@ -193,8 +194,8 @@ public class FireStationsController {
 
     /**
      * Delete all addresses from a fireStation.
-     * @param id long
-     * @return responseEntity
+     * @param id station number to delete addresses
+     * @return fireStation updated
      */
     @DeleteMapping("/id/{id}/addresses")
     public ResponseEntity<FireStationEntity> deleteAllAddressesStation(

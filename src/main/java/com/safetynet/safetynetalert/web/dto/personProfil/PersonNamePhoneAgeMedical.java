@@ -12,12 +12,21 @@ import java.util.Date;
 @Getter
 @Setter
 public class PersonNamePhoneAgeMedical {
+    /** Person lastname. */
     private String lastName;
+    /** Person firstname. */
     private String firstName;
+    /** Person phone. */
     private String phone;
+    /** Person age. */
     private Long age;
+    /** Person medical record. */
     private MedicalRecordDTO medicalRecord;
 
+    /**
+     * Setter from a personEntity.
+     * @param pe personEntity information
+     */
     public void setPersonPhAgMrDTO(final PersonEntity pe) {
         setLastName(pe.getLastName());
         setFirstName(pe.getFirstName());
@@ -28,6 +37,10 @@ public class PersonNamePhoneAgeMedical {
         setMedicalRecord(medicalRecordDTO);
     }
 
+    /**
+     * Setter age from birthdate.
+     * @param birthDate birthdate person
+     */
     public void setAge(final Date birthDate) {
         LocalDate localBirthDate = birthDate.toInstant()
                 .atZone(ZoneId.systemDefault())

@@ -11,10 +11,17 @@ import java.util.Date;
 @Getter
 @Setter
 public class PersonNameAgeDTO {
+    /** Person lastname. */
     private String lastName;
+    /** Person firstname. */
     private String firstName;
+    /** Person age. */
     private long age;
 
+    /**
+     * Setter age from birthdate person.
+     * @param birthDate birthdate person
+     */
     public void setAge(final Date birthDate) {
         LocalDate localBirthDate = birthDate.toInstant()
                 .atZone(ZoneId.systemDefault())
