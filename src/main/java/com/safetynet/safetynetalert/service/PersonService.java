@@ -193,7 +193,7 @@ public class PersonService {
         long personYears =
                 ChronoUnit.YEARS.between(localBirthDate, currentDate);
         final long majorAge = 18;
-        return personYears >= majorAge;
+        return personYears > majorAge;
     }
 
     public PersonEntity getPersonByMedicalRecord(

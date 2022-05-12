@@ -240,23 +240,13 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void majorPersonFalseTest() {
-        PersonEntity newPe1 = new PersonEntity();
-        newPe1.setFirstName("Damien");
-        newPe1.setLastName("Care");
-        Date birthDate = new Date(System.currentTimeMillis()-(MILLISECONDS_IN_YEAR * 17));
-        newPe1.setBirthDate(birthDate);
-        assertFalse(personService.majorPerson(newPe1));
-    }
-
-    @Test
     public void majorPersonEqualEighteenTest() {
         PersonEntity newPe1 = new PersonEntity();
         newPe1.setFirstName("Damien");
         newPe1.setLastName("Care");
         Date birthDate = new Date(System.currentTimeMillis()-(MILLISECONDS_IN_YEAR * 19));
         newPe1.setBirthDate(birthDate);
-        assertTrue(personService.majorPerson(newPe1));
+        assertFalse(personService.majorPerson(newPe1));
     }
 
     @Test
