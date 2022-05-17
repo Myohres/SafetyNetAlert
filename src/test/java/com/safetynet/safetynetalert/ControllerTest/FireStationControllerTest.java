@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-public class FireStationsControllerTest {
+public class FireStationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

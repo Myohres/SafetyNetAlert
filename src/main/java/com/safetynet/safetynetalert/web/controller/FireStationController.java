@@ -20,8 +20,8 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
-@RequestMapping("/fire_stations")
-public class FireStationsController {
+@RequestMapping("/fireStation")
+public class FireStationController {
     /**
      * FireStation service layer.
      */

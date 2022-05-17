@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-public class PersonsControllerTest {
+public class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

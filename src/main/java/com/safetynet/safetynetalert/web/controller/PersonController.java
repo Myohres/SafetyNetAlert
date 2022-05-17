@@ -19,8 +19,8 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
-@RequestMapping("/persons")
-public class PersonsController {
+@RequestMapping("/person")
+public class PersonController {
 
     @Autowired
     private PersonService personService;

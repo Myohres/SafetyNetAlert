@@ -19,8 +19,8 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
-@RequestMapping("/medical_records")
-public class MedicalRecordsController {
+@RequestMapping("/medicalRecord")
+public class MedicalRecordController {
     /**
      * Medical record service layer.
      */
