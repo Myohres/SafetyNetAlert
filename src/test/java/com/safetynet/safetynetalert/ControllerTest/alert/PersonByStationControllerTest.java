@@ -30,7 +30,7 @@ class PersonByStationControllerTest {
     public void testGetPersonByStation() throws Exception{
         when(personsByStationService.getPersonByFireStation(1L))
                 .thenReturn(new PersonsByFireStationAddressesDTO());
-        mockMvc.perform(get("/fireStation?stationNumber=1"))
+        mockMvc.perform(get("/firestation?stationNumber=1"))
                 .andExpect(status().isOk());
     }
 
@@ -38,7 +38,7 @@ class PersonByStationControllerTest {
     public void testGetPersonByStation_ShouldReturnNotFound() throws Exception{
         when(personsByStationService.getPersonByFireStation(1L))
                 .thenThrow(new NoSuchElementException());
-        mockMvc.perform(get("/fireStation?stationNumber=1"))
+        mockMvc.perform(get("/firestation?stationNumber=1"))
                 .andExpect(status().isNotFound());
     }
 }
